@@ -1,7 +1,7 @@
 'use strict';
 /* DUAVA CHECK - FASE 1 - Tema Claro - Acentos seguros */
 
-var URL_HOJA = 'PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT';
+var URL_HOJA = 'https://script.google.com/macros/s/AKfycbzPZrEd8x6sMAtpB3TilW6NcFh80ato138Uyi1DhJlY7P3pG0nZ78RFzobEo-7dWZ5raQ/exec';
 
 function $(s){return document.querySelector(s)}
 function $i(s){return document.getElementById(s)}
