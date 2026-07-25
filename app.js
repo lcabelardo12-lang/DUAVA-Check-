@@ -2,7 +2,7 @@
 /* ===========================================================
  *  DUAVA CHECK — FASE 1
  *  Google Sheets como base de datos principal
- *  Nombres de columnas en español para fácil entendimiento
+ *  Nombres de columnas en espa&ntilde;ol para f&aacute;cil entendimiento
  * =========================================================== */
 
 /* ===========================================================
@@ -34,37 +34,37 @@ function toast(mensaje,tipo){
 }
 
 /* ===========================================================
- *  MEMORIA TEMPORAL (se borra al recargar la página)
+ *  MEMORIA TEMPORAL (se borra al recargar la p&aacute;gina)
  * =========================================================== */
 var Memoria={_d:{},obtener:function(k){return this._d[k]||null},guardar:function(k,v){this._d[k]=v},limpiar:function(k){delete this._d[k]}};
 
 /* ===========================================================
- *  GOOGLE SHEETS API (a través de Apps Script)
+ *  GOOGLE SHEETS API (a trav&eacute;s de Apps Script)
  * =========================================================== */
 var Hoja={
-  leer:function(nombrePestaña,forzar){
-    if(!forzar){var c=Memoria.obtener(nombrePestaña);if(c)return Promise.resolve(c)}
-    return fetch(URL_HOJA+'?action=read&sheet='+encodeURIComponent(nombrePestaña))
+  leer:function(nombrePesta&ntilde;a,forzar){
+    if(!forzar){var c=Memoria.obtener(nombrePesta&ntilde;a);if(c)return Promise.resolve(c)}
+    return fetch(URL_HOJA+'?action=read&sheet='+encodeURIComponent(nombrePesta&ntilde;a))
       .then(function(r){return r.json()})
       .then(function(d){
         if(d.error)throw new Error(d.error);
-        Memoria.guardar(nombrePestaña,d);
+        Memoria.guardar(nombrePesta&ntilde;a,d);
         return d;
       });
   },
-  escribir:function(nombrePestaña,datos){
-    var url=URL_HOJA+'?action=write&sheet='+encodeURIComponent(nombrePestaña)+'&data='+encodeURIComponent(JSON.stringify(datos));
+  escribir:function(nombrePesta&ntilde;a,datos){
+    var url=URL_HOJA+'?action=write&sheet='+encodeURIComponent(nombrePesta&ntilde;a)+'&data='+encodeURIComponent(JSON.stringify(datos));
     return fetch(url).then(function(r){return r.json()}).then(function(d){
       if(d.error)throw new Error(d.error);
-      Memoria.limpiar(nombrePestaña);
+      Memoria.limpiar(nombrePesta&ntilde;a);
       return d;
     });
   },
-  actualizar:function(nombrePestaña,id,datos){
-    var url=URL_HOJA+'?action=update&sheet='+encodeURIComponent(nombrePestaña)+'&id='+encodeURIComponent(id)+'&data='+encodeURIComponent(JSON.stringify(datos));
+  actualizar:function(nombrePesta&ntilde;a,id,datos){
+    var url=URL_HOJA+'?action=update&sheet='+encodeURIComponent(nombrePesta&ntilde;a)+'&id='+encodeURIComponent(id)+'&data='+encodeURIComponent(JSON.stringify(datos));
     return fetch(url).then(function(r){return r.json()}).then(function(d){
       if(d.error)throw new Error(d.error);
-      Memoria.limpiar(nombrePestaña);
+      Memoria.limpiar(nombrePesta&ntilde;a);
       return d;
     });
   },
@@ -85,50 +85,50 @@ var Sesion={
  *  MOTOR DE AUDITORIA — Los 5 Pilares
  * =========================================================== */
 var Modulos={
-  1:{nombre:'Certificación Europea (CE/MDR)',descripcion:'El Filtro Crítico — Poder de Veto',veto:true,tipo:'texto',
-     placeholder:'Pega aquí el texto del certificado CE, MDR o ficha del producto...',
+  1:{nombre:'Certificaci&oacute;n Europea (CE/MDR)',descripcion:'El Filtro Cr&iacute;tico — Poder de Veto',veto:true,tipo:'texto',
+     placeholder:'Pega aqu&iacute; el texto del certificado CE, MDR o ficha del producto...',
      icono:'🛡️',enlaces:[{titulo:'NANDO (UE)',url:'https://webgate.ec.europa.eu/single-market-compliance-space/#/notified-bodies'},{titulo:'CertiPedia',url:'https://www.certipedia.com/'},{titulo:'TÜV SÜD',url:'https://www.tuvsud.com/en/industries/healthcare-and-medical-devices'}]},
   2:{nombre:'Identidad Corporativa',descripcion:'Fabricante vs. Intermediario',veto:false,tipo:'texto',
      placeholder:'Pega texto de la Licencia Comercial (Business License) o nombre de empresa...',
-     icono:'🏢',enlaces:[{titulo:'Guía Licencias Chinas',url:'https://www.china-briefing.com/news/how-to-read-a-china-business-license/'},{titulo:'Tianyancha',url:'https://www.tianyancha.com/'}]},
-  3:{nombre:'Especificaciones Técnicas',descripcion:'Análisis Forense de Datasheet',veto:false,tipo:'texto',
-     placeholder:'Pega ficha técnica: voltaje, RPM, torque, IP, normativas...',
+     icono:'🏢',enlaces:[{titulo:'Gu&iacute;a Licencias Chinas',url:'https://www.china-briefing.com/news/how-to-read-a-china-business-license/'},{titulo:'Tianyancha',url:'https://www.tianyancha.com/'}]},
+  3:{nombre:'Especificaciones T&eacute;cnicas',descripcion:'An&aacute;lisis Forense de Datasheet',veto:false,tipo:'texto',
+     placeholder:'Pega ficha t&eacute;cnica: voltaje, RPM, torque, IP, normativas...',
      icono:'⚙️',enlaces:[{titulo:'IEC 60601',url:'https://webstore.iec.ch/en/publication/25652'}]},
-  4:{nombre:'Cadena de Suministro',descripcion:'Repuestos y Garantía',veto:false,tipo:'checklist',icono:'🚚',
+  4:{nombre:'Cadena de Suministro',descripcion:'Repuestos y Garant&iacute;a',veto:false,tipo:'checklist',icono:'🚚',
      preguntas:[
-       {id:'m4_catalogo_repuestos',pregunta:'¿Catálogo de Repuestos?',ayuda:'Lista de piezas con números de parte.'},
+       {id:'m4_catalogo_repuestos',pregunta:'¿Cat&aacute;logo de Repuestos?',ayuda:'Lista de piezas con n&uacute;meros de parte.'},
        {id:'m4_precios_unitarios',pregunta:'¿Precios unitarios?',ayuda:'Precio claro por cada repuesto.'},
-       {id:'m4_garantia_escrita',pregunta:'¿Garantía escrita?',ayuda:'Documento formal, no verbal.'},
-       {id:'m4_procedimiento_reclamacion',pregunta:'¿Procedimiento de reclamación?',ayuda:'Pasos, tiempos, cobertura definidos.'}],
+       {id:'m4_garantia_escrita',pregunta:'¿Garant&iacute;a escrita?',ayuda:'Documento formal, no verbal.'},
+       {id:'m4_procedimiento_reclamacion',pregunta:'¿Procedimiento de reclamaci&oacute;n?',ayuda:'Pasos, tiempos, cobertura definidos.'}],
      enlaces:[]},
   5:{nombre:'Viabilidad Bolivia (AGEMED)',descripcion:'Requisitos Regulatorios',veto:false,tipo:'checklist',icono:'⚖️',
      preguntas:[
        {id:'m5_cfg',pregunta:'¿Puede emitir CFG?',ayuda:'Certificado de Libre Venta.'},
        {id:'m5_apostillado',pregunta:'¿CFG apostillado?',ayuda:'Apostilla de La Haya.'},
-       {id:'m5_manual_espanol',pregunta:'¿Manual en español?',ayuda:'Traducción oficial.'}],
+       {id:'m5_manual_espanol',pregunta:'¿Manual en espa&ntilde;ol?',ayuda:'Traducci&oacute;n oficial.'}],
      enlaces:[{titulo:'AGEMED',url:'https://www.gob.bo/agaemed'}]}
 };
 
-// --- Analizar Módulo 1: Certificación ---
+// --- Analizar M&oacute;dulo 1: Certificaci&oacute;n ---
 function analizarM1(texto){
   var tieneMDR=/MDR\s*2017\/745|MDD\s*93\/42|Medical Device (Regulation|Directive)/i.test(texto);
   var tieneOrganismo=/(?:CE|NB|Notified\s*Body)\s*[^\d]{0,3}\d{4}\b/i.test(texto);
   var tieneCE=/\bCE\b|marca\s*CE|marcado\s*CE/i.test(texto);
   var esFalso=/\bce\s+certified\b/i.test(texto)&&!/\bCE\b/.test(texto);
   var veredicto,hallazgos;
-  if(tieneMDR&&tieneOrganismo){veredicto='GREEN';hallazgos='Certificación MDR/MDD válida con organismo notificado. Pasa filtro crítico.';}
-  else if(tieneMDR&&!tieneOrganismo){veredicto='YELLOW';hallazgos='Referencia MDR/MDD pero sin número de organismo. Verificar en NANDO.';}
-  else if(tieneCE&&!tieneMDR){veredicto='YELLOW';hallazgos='CE sin referencia a MDR/MDD. Posible certificación obsoleta.';}
-  else if(esFalso){veredicto='RED';hallazgos='Posible "ce" fraudulento (minúsculas, sin organismo). Alto riesgo.';}
-  else{veredicto='RED';hallazgos='Sin certificación CE/MDR/MDD. NO puede importarse sin certificación europea válida.';}
+  if(tieneMDR&&tieneOrganismo){veredicto='GREEN';hallazgos='Certificaci&oacute;n MDR/MDD v&aacute;lida con organismo notificado. Pasa filtro cr&iacute;tico.';}
+  else if(tieneMDR&&!tieneOrganismo){veredicto='YELLOW';hallazgos='Referencia MDR/MDD pero sin n&uacute;mero de organismo. Verificar en NANDO.';}
+  else if(tieneCE&&!tieneMDR){veredicto='YELLOW';hallazgos='CE sin referencia a MDR/MDD. Posible certificaci&oacute;n obsoleta.';}
+  else if(esFalso){veredicto='RED';hallazgos='Posible "ce" fraudulento (min&uacute;sculas, sin organismo). Alto riesgo.';}
+  else{veredicto='RED';hallazgos='Sin certificaci&oacute;n CE/MDR/MDD. NO puede importarse sin certificaci&oacute;n europea v&aacute;lida.';}
   return{veredicto:veredicto,hallazgos:hallazgos,detalles:[
     {texto:'Referencia MDR/MDD',pasa:tieneMDR},
-    {texto:'Número de organismo notificado',pasa:tieneOrganismo},
-    {texto:'Mención CE',pasa:tieneCE}
+    {texto:'N&uacute;mero de organismo notificado',pasa:tieneOrganismo},
+    {texto:'Menci&oacute;n CE',pasa:tieneCE}
   ]};
 }
 
-// --- Analizar Módulo 2: Identidad ---
+// --- Analizar M&oacute;dulo 2: Identidad ---
 function analizarM2(texto){
   var esFabricante=/manufactur|production|factory|producer|制造|生产|工厂/i.test(texto);
   var esIntermediario=/trading|wholesale|import.*(and|&).*export|贸易|批发|零售|进出口/i.test(texto);
@@ -139,52 +139,52 @@ function analizarM2(texto){
   return{veredicto:veredicto,hallazgos:hallazgos,detalles:[{texto:'Fabricante',pasa:esFabricante},{texto:'Intermediario',pasa:esIntermediario}]};
 }
 
-// --- Analizar Módulo 3: Especificaciones ---
+// --- Analizar M&oacute;dulo 3: Especificaciones ---
 function analizarM3(texto){
   var tieneIEC=/IEC\s*60601|EN\s*60601|60601-1/i.test(texto);
   var tieneIP=/IP\s*[X]?\d{1,2}\b|IP6[5-9]|IPX[5-9]|sumergible|waterproof/i.test(texto);
   var tieneDatos=/\d+\s*(?:RPM|rpm|N[·.]cm|W(?:att)?|V(?:olt)?|kPa|Hz|mA)/i.test(texto);
   var esVago=/high\s*quality|premium|best\s*motor|superior/i.test(texto)&&!tieneDatos;
   var veredicto,hallazgos;
-  if(tieneIEC&&tieneIP){veredicto='GREEN';hallazgos='IEC 60601-1 y clasificación IP presentes. Especificaciones adecuadas.';}
+  if(tieneIEC&&tieneIP){veredicto='GREEN';hallazgos='IEC 60601-1 y clasificaci&oacute;n IP presentes. Especificaciones adecuadas.';}
   else if(tieneIEC||tieneIP){veredicto='YELLOW';var faltan=[];if(!tieneIEC)faltan.push('IEC 60601');if(!tieneIP)faltan.push('IP');hallazgos='Ficha parcial: falta '+faltan.join(' y ')+'.';}
   else if(esVago){veredicto='RED';hallazgos='Especificaciones vagas sin datos ni normativas.';}
-  else{veredicto='RED';hallazgos='Sin IEC 60601, IP ni datos técnicos cuantitativos.';}
-  return{veredicto:veredicto,hallazgos:hallazgos,detalles:[{texto:'IEC 60601-1',pasa:tieneIEC},{texto:'Clasificación IP',pasa:tieneIP},{texto:'Datos técnicos',pasa:tieneDatos}]};
+  else{veredicto='RED';hallazgos='Sin IEC 60601, IP ni datos t&eacute;cnicos cuantitativos.';}
+  return{veredicto:veredicto,hallazgos:hallazgos,detalles:[{texto:'IEC 60601-1',pasa:tieneIEC},{texto:'Clasificaci&oacute;n IP',pasa:tieneIP},{texto:'Datos t&eacute;cnicos',pasa:tieneDatos}]};
 }
 
-// --- Analizar Módulo 4: Cadena de Suministro ---
+// --- Analizar M&oacute;dulo 4: Cadena de Suministro ---
 function analizarM4(checks){
   var cat=checks.m4_catalogo_repuestos,pre=checks.m4_precios_unitarios,gar=checks.m4_garantia_escrita,pro=checks.m4_procedimiento_reclamacion;
   var veredicto,hallazgos;
-  if(cat&&pre&&gar&&pro){veredicto='GREEN';hallazgos='Catálogo con precios, garantía y procedimiento. Suministro documentado.';}
-  else if(gar&&pro&&(cat||pre)){veredicto='YELLOW';hallazgos='Garantía documentada pero catálogo incompleto.';}
-  else if((cat||pre)&&!gar){veredicto='YELLOW';hallazgos='Repuestos parciales sin garantía formal.';}
-  else if(gar&&!pro){veredicto='YELLOW';hallazgos='Garantía sin procedimiento escrito.';}
-  else{veredicto='RED';hallazgos='Sin catálogo, precios ni garantía. Alto riesgo post-venta.';}
-  return{veredicto:veredicto,hallazgos:hallazgos,detalles:[{texto:'Catálogo de Repuestos',pasa:cat},{texto:'Precios unitarios',pasa:pre},{texto:'Garantía escrita',pasa:gar},{texto:'Procedimiento reclamación',pasa:pro}]};
+  if(cat&&pre&&gar&&pro){veredicto='GREEN';hallazgos='Cat&aacute;logo con precios, garant&iacute;a y procedimiento. Suministro documentado.';}
+  else if(gar&&pro&&(cat||pre)){veredicto='YELLOW';hallazgos='Garant&iacute;a documentada pero cat&aacute;logo incompleto.';}
+  else if((cat||pre)&&!gar){veredicto='YELLOW';hallazgos='Repuestos parciales sin garant&iacute;a formal.';}
+  else if(gar&&!pro){veredicto='YELLOW';hallazgos='Garant&iacute;a sin procedimiento escrito.';}
+  else{veredicto='RED';hallazgos='Sin cat&aacute;logo, precios ni garant&iacute;a. Alto riesgo post-venta.';}
+  return{veredicto:veredicto,hallazgos:hallazgos,detalles:[{texto:'Cat&aacute;logo de Repuestos',pasa:cat},{texto:'Precios unitarios',pasa:pre},{texto:'Garant&iacute;a escrita',pasa:gar},{texto:'Procedimiento reclamaci&oacute;n',pasa:pro}]};
 }
 
-// --- Analizar Módulo 5: AGEMED ---
+// --- Analizar M&oacute;dulo 5: AGEMED ---
 function analizarM5(checks){
   var cfg=checks.m5_cfg,apo=checks.m5_apostillado,man=checks.m5_manual_espanol;
   var veredicto,hallazgos;
-  if(cfg&&apo&&man){veredicto='GREEN';hallazgos='CFG apostillado y manual en español. Cumple AGEMED.';}
-  else if(cfg&&apo&&!man){veredicto='YELLOW';hallazgos='CFG apostillado pero sin manual español.';}
-  else if(man&&(!cfg||!apo)){veredicto='YELLOW';hallazgos='Manual español pero falta CFG o apostillado.';}
+  if(cfg&&apo&&man){veredicto='GREEN';hallazgos='CFG apostillado y manual en espa&ntilde;ol. Cumple AGEMED.';}
+  else if(cfg&&apo&&!man){veredicto='YELLOW';hallazgos='CFG apostillado pero sin manual espa&ntilde;ol.';}
+  else if(man&&(!cfg||!apo)){veredicto='YELLOW';hallazgos='Manual espa&ntilde;ol pero falta CFG o apostillado.';}
   else if(cfg&&!apo){veredicto='YELLOW';hallazgos='CFG sin apostillado.';}
-  else{veredicto='RED';hallazgos='Sin CFG apostillado ni manual español. NO registra ante AGEMED.';}
-  return{veredicto:veredicto,hallazgos:hallazgos,detalles:[{texto:'Free Sales Certificate',pasa:cfg},{texto:'Apostillado',pasa:apo},{texto:'Manual en español',pasa:man}]};
+  else{veredicto='RED';hallazgos='Sin CFG apostillado ni manual espa&ntilde;ol. NO registra ante AGEMED.';}
+  return{veredicto:veredicto,hallazgos:hallazgos,detalles:[{texto:'Free Sales Certificate',pasa:cfg},{texto:'Apostillado',pasa:apo},{texto:'Manual en espa&ntilde;ol',pasa:man}]};
 }
 
-// --- Ejecutar auditoría completa ---
+// --- Ejecutar auditor&iacute;a completa ---
 function ejecutarAuditoria(datos){
   var resultados={};
-  resultados[1]=datos.m1_texto.trim()?analizarM1(datos.m1_texto):{veredicto:'RED',hallazgos:'Sin información.',detalles:[]};
-  resultados[2]=datos.m2_texto.trim()?analizarM2(datos.m2_texto):{veredicto:'RED',hallazgos:'Sin información.',detalles:[]};
-  resultados[3]=datos.m3_texto.trim()?analizarM3(datos.m3_texto):{veredicto:'RED',hallazgos:'Sin información.',detalles:[]};
-  var c4=datos.m4||{};resultados[4]=Object.values(c4).some(function(v){return v})?analizarM4(c4):{veredicto:'RED',hallazgos:'Sin verificación.',detalles:[]};
-  var c5=datos.m5||{};resultados[5]=Object.values(c5).some(function(v){return v})?analizarM5(c5):{veredicto:'RED',hallazgos:'Sin verificación.',detalles:[]};
+  resultados[1]=datos.m1_texto.trim()?analizarM1(datos.m1_texto):{veredicto:'RED',hallazgos:'Sin informaci&oacute;n.',detalles:[]};
+  resultados[2]=datos.m2_texto.trim()?analizarM2(datos.m2_texto):{veredicto:'RED',hallazgos:'Sin informaci&oacute;n.',detalles:[]};
+  resultados[3]=datos.m3_texto.trim()?analizarM3(datos.m3_texto):{veredicto:'RED',hallazgos:'Sin informaci&oacute;n.',detalles:[]};
+  var c4=datos.m4||{};resultados[4]=Object.values(c4).some(function(v){return v})?analizarM4(c4):{veredicto:'RED',hallazgos:'Sin verificaci&oacute;n.',detalles:[]};
+  var c5=datos.m5||{};resultados[5]=Object.values(c5).some(function(v){return v})?analizarM5(c5):{veredicto:'RED',hallazgos:'Sin verificaci&oacute;n.',detalles:[]};
 
   var global='GREEN',peso={GREEN:0,YELLOW:1,RED:2};
   if(resultados[1].veredicto==='RED')global='RED';
@@ -193,9 +193,9 @@ function ejecutarAuditoria(datos){
   var rojos=[],amarillos=[];
   for(var i=1;i<=5;i++){if(resultados[i].veredicto==='RED')rojos.push(Modulos[i].nombre);else if(resultados[i].veredicto==='YELLOW')amarillos.push(Modulos[i].nombre);}
   var resumen='';
-  if(global==='RED')resumen=resultados[1].veredicto==='RED'?'RECHAZADA: Sin CE/MDR. Riesgo legal inaceptable.':'RIESGOS CRÍTICOS: '+rojos.length+' módulo(s) en rojo ('+rojos.join(', ')+').';
-  else if(global==='YELLOW')resumen='CON OBSERVACIONES: '+amarillos.length+' módulo(s) con advertencias ('+amarillos.join(', ')+').';
-  else resumen='APROBADA: Todos los módulos cumplen. Procede con negociación.';
+  if(global==='RED')resumen=resultados[1].veredicto==='RED'?'RECHAZADA: Sin CE/MDR. Riesgo legal inaceptable.':'RIESGOS CRÍTICOS: '+rojos.length+' m&oacute;dulo(s) en rojo ('+rojos.join(', ')+').';
+  else if(global==='YELLOW')resumen='CON OBSERVACIONES: '+amarillos.length+' m&oacute;dulo(s) con advertencias ('+amarillos.join(', ')+').';
+  else resumen='APROBADA: Todos los m&oacute;dulos cumplen. Procede con negociaci&oacute;n.';
   return{veredicto_global:global,resumen:resumen,resultados:resultados,score:{aprobados:5-rojos.length-amarillos.length,observaciones:amarillos.length,rechazados:rojos.length}};
 }
 
@@ -204,13 +204,13 @@ function ejecutarAuditoria(datos){
  * =========================================================== */
 function generarWhatsApp(recomendada,economica){
   var iconos={GREEN:'✅',YELLOW:'⚠️',RED:'❌'};
-  var nombres={1:'Certificación CE/MDR',2:'Tipo de Empresa',3:'Especificaciones',4:'Repuestos/Garantía',5:'Legalidad AGEMED'};
+  var nombres={1:'Certificaci&oacute;n CE/MDR',2:'Tipo de Empresa',3:'Especificaciones',4:'Repuestos/Garant&iacute;a',5:'Legalidad AGEMED'};
   var t='📊 *COMPARATIVO DE EQUIPOS MÉDICOS*\n━━━━━━━━━━━━━━━━━━━━\n\n';
   t+='🏥 *RECOMENDADA*\n📦 '+limpiar(recomendada.producto)+'\n🏭 '+limpiar(recomendada.proveedor_nombre)+'\n\n';
   for(var i=1;i<=5;i++)t+=iconos[recomendada['m'+i+'_veredicto']]+' *'+nombres[i]+'*\n';
   t+='\n━━━━━━━━━━━━━━━━━━━━\n\n💰 *ECONÓMICA*\n📦 '+limpiar(economica.producto)+'\n🏭 '+limpiar(economica.proveedor_nombre)+'\n\n';
   for(var i=1;i<=5;i++)t+=iconos[economica['m'+i+'_veredicto']]+' *'+nombres[i]+'*\n';
-  t+='\n━━━━━━━━━━━━━━━━━━━━\n\n💡 *RECOMENDACIÓN*\nSe recomienda '+limpiar(recomendada.producto)+'. Garantiza certificación válida y cumplimiento AGEMED.\n\n_Duava Check — Auditoría Forense_';
+  t+='\n━━━━━━━━━━━━━━━━━━━━\n\n💡 *RECOMENDACIÓN*\nSe recomienda '+limpiar(recomendada.producto)+'. Garantiza certificaci&oacute;n v&aacute;lida y cumplimiento AGEMED.\n\n_Duava Check — Auditor&iacute;a Forense_';
   return t;
 }
 
@@ -264,12 +264,13 @@ function reiniciarAuditoria(){
  *  COMPONENTES DE INTERFAZ
  * =========================================================== */
 function renderizar(titulo,contenido,volverAtras){
-  var botonVolver=volverAtras?'<button onclick="nav(\''+volverAtras+'\')" style="background:none;border:none;color:var(--mut);font-size:18px;cursor:pointer;margin-right:6px">←</button>':'';
+  var botonVolver=volverAtras?'<button onclick="nav(\''+volverAtras+'\')" style="background:none;border:none;color:#6b7280;font-size:20px;cursor:pointer;padding:8px 0;margin-bottom:8px;display:inline-block"> Volver</button>':'';
   var usuario=Sesion.obtener();
-  $i('R').innerHTML='<div class="hd"><div class="hd-l">'+botonVolver+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Duava Check</span></div>'+
-    '<div class="hd-r"><span class="offb" id="sincon">Sin conexión</span><span style="font-size:12px;color:var(--dim)">'+limpiar(usuario?usuario.nombre:'')+'</span><button class="btn-lo" onclick="Sesion.cerrar();nav(\'login\')">Salir</button></div></div>'+
-    '<div style="padding:18px 0;animation:fadeIn .3s ease">'+contenido+'</div>';
-  var ob=$i('sincon');if(ob)ob.className='offb'+(navigator.onLine?'':' on');
+  var barraInferior='<div style="position:fixed;bottom:0;left:0;right:0;background:#ffffff;border-top:1px solid #d1d5db;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;z-index:50;max-width:720px;margin:0 auto">'+
+    '<span style="font-size:12px;color:#6b7280;font-family:Syne,sans-serif"> '+limpiar(usuario?usuario.nombre:'')+'</span>'+
+    '<span id="sincon" style="font-size:11px;color:#ca8a04;display:'+(navigator.onLine?'none':'inline')+'"> Sin conexi�n</span>'+
+    '<button onclick="Sesion.cerrar();nav(\'login\')" style="background:none;border:1px solid #d1d5db;color:#dc2626;font-size:12px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:Syne,sans-serif">Salir</button></div>';
+  $i('R').innerHTML='<div style="padding:18px 16px 70px;animation:fadeIn .3s ease">'+botonVolver+contenido+'</div>'+barraInferior;
 }
 
 function semaforo(veredicto,tamano,mostrarEtiqueta){
@@ -288,17 +289,17 @@ function filtroHTML(items,idContenedor){return'<div class="fs" id="'+idContenedo
 
 function inicializarFiltros(idContenedor,callback){var w=$i(idContenedor);if(!w)return;w.onclick=function(e){var b=e.target.closest('.fb');if(!b)return;w.querySelectorAll('.fb').forEach(function(x){x.classList.remove('on')});b.classList.add('on');callback(b.getAttribute('data-v'))};}
 
-function mostrarConfig(){$i('R').innerHTML='<div class="err-full"><div><h2>⚙️ Configuración requerida</h2><p>Abre <code>app.js</code> y busca la línea que dice <code>URL_HOJA</code>. Reemplaza <code>PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT</code> con la URL de tu Google Apps Script.<br><br>Las instrucciones están en los comentarios al inicio del archivo.</p></div></div>';}
+function mostrarConfig(){$i('R').innerHTML='<div class="err-full"><div><h2>⚙️ Configuraci&oacute;n requerida</h2><p>Abre <code>app.js</code> y busca la l&iacute;nea que dice <code>URL_HOJA</code>. Reemplaza <code>PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT</code> con la URL de tu Google Apps Script.<br><br>Las instrucciones est&aacute;n en los comentarios al inicio del archivo.</p></div></div>';}
 
 /* ===========================================================
  *  PANTALLA: LOGIN
  * =========================================================== */
 function pantallaLogin(){
   $i('R').innerHTML='<div class="lg-w"><div class="lg-b"><div class="lg-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>'+
-    '<h1 class="lg-h">Duava Check</h1><p class="lg-sub">Auditoría Forense de Proveedores Médicos</p><div id="login-error"></div>'+
+    '<h1 class="lg-h">Duava Check</h1><p class="lg-sub">Auditor&iacute;a Forense de Proveedores M&eacute;dicos</p><p style="font-size:11px;color:#9ca3af;margin-bottom:24px;font-family:DM Mono,monospace">v1.0</p><div id="login-error"></div>'+
     '<div style="text-align:left;margin-bottom:12px"><label class="lb">NOMBRE</label><input class="ip" id="campo-nombre" placeholder="Tu nombre" autocomplete="username"></div>'+
     '<div style="text-align:left;margin-bottom:18px"><label class="lb">CLAVE</label><input class="ip" id="campo-clave" type="password" placeholder="Tu clave" autocomplete="current-password"></div>'+
-    '<button class="btn bp bw" id="boton-login" onclick="hacerLogin()">Iniciar Sesión</button>'+
+    '<button class="btn bp bw" id="boton-login" onclick="hacerLogin()">Iniciar Sesi&oacute;n</button>'+
     '<p style="font-size:11px;color:var(--dim);margin-top:14px">Acceso restringido a usuarios autorizados</p></div></div>';
   $i('campo-clave').onkeydown=function(e){if(e.key==='Enter')hacerLogin()};
   $i('campo-nombre').focus();
@@ -313,13 +314,13 @@ function hacerLogin(){
     for(var i=0;i<usuarios.length;i++)if(usuarios[i].Nombre===nombre&&usuarios[i].Clave===clave){encontrado=usuarios[i];break;}
     if(!encontrado){mostrarErrorLogin('Nombre o clave incorrectos');resetearBotonLogin();return;}
     var activo=(encontrado.Activo||'').toLowerCase();
-    if(activo!=='sí'&&activo!=='si'&&activo!=='s'){mostrarErrorLogin('Usuario inactivo. Contacta al administrador.');resetearBotonLogin();return;}
+    if(activo!=='s&iacute;'&&activo!=='si'&&activo!=='s'){mostrarErrorLogin('Usuario inactivo. Contacta al administrador.');resetearBotonLogin();return;}
     Sesion.guardar({nombre:encontrado.Nombre});
     nav('home');
-  }).catch(function(e){mostrarErrorLogin('Error de conexión: '+e.message+'. Verifica tu internet y la URL.');resetearBotonLogin()});
+  }).catch(function(e){mostrarErrorLogin('Error de conexi&oacute;n: '+e.message+'. Verifica tu internet y la URL.');resetearBotonLogin()});
 }
 function mostrarErrorLogin(m){$i('login-error').innerHTML='<div class="lg-err">'+limpiar(m)+'</div>';}
-function resetearBotonLogin(){$i('boton-login').disabled=false;$i('boton-login').textContent='Iniciar Sesión';}
+function resetearBotonLogin(){$i('boton-login').disabled=false;$i('boton-login').textContent='Iniciar Sesi&oacute;n';}
 
 /* ===========================================================
  *  PANTALLA: HOME
@@ -329,12 +330,12 @@ function pantallaHome(){
   var h='<div style="text-align:center;margin-bottom:6px">'+
     '<img src="logo.png" alt="Logo Duava Check" style="max-width:150px;height:auto;margin-bottom:8px">'+
     '<!-- INSTRUCCIÓN: Reemplazar logo.png con el archivo de imagen del logo real --></div>'+
-    '<p style="font-size:13px;color:var(--mut);margin-bottom:18px;text-align:center">Bienvenido, <strong style="color:var(--gold)">'+limpiar(usuario?usuario.nombre:'')+'</strong></p>'+
-    '<div class="cd cd-cl" onclick="nav(\'auditoria/nueva\')" style="margin-bottom:20px;border-color:var(--gold-dim)"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:26px">🔍</span><div><div class="fd" style="font-weight:700;font-size:15px">Nueva Auditoría</div><div style="font-size:12px;color:var(--mut)">Evaluar proveedor con los 5 Pilares</div></div></div></div>'+
+    '<p style="font-size:13px;color:var(--mut);margin-bottom:18px;text-align:center"><h2 style="font-family:Syne,sans-serif;font-weight:800;font-size:24px;text-align:center;margin-bottom:4px;color:#1a1a1a;letter-spacing:-.02em">Duava Check</h2>Bienvenido, <strong style="color:var(--gold)">'+limpiar(usuario?usuario.nombre:'')+'</strong></p>'+
+    '<div class="cd cd-cl" onclick="nav(\'auditoria/nueva\')" style="margin-bottom:20px;border-color:var(--gold-dim)"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:26px">🔍</span><div><div class="fd" style="font-weight:700;font-size:15px">Nueva Auditor&iacute;a</div><div style="font-size:12px;color:var(--mut)">Evaluar proveedor con los 5 Pilares</div></div></div></div>'+
     '<h3 class="sl">Los 5 Pilares</h3><div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">';
   for(var i=1;i<=5;i++){var m=Modulos[i];h+='<div class="cd" style="opacity:.7"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">'+m.icono+'</span><div><span class="fm" style="font-size:11px;color:var(--gold);background:var(--gold-bg);padding:1px 6px;border-radius:4px">M'+i+'</span> <span class="fd" style="font-weight:700;font-size:13px">'+limpiar(m.nombre)+'</span>'+(m.veto?' <span class="bg bg-rd">VETO</span>':'')+'</div></div></div>';}
   h+='</div><h3 class="sl">Herramientas</h3><div class="g2">'+
-    tarjetaMenu('📋','Historial','Consultar auditorías','historial')+tarjetaMenu('👥','Proveedores','Base de contactos','proveedores')+
+    tarjetaMenu('📋','Historial','Consultar auditor&iacute;as','historial')+tarjetaMenu('👥','Proveedores','Base de contactos','proveedores')+
     tarjetaMenu('📖','Base Legal','Regulaciones y normas','legal')+tarjetaMenu('💬','WhatsApp','Comparativos','whatsapp')+
     tarjetaMenu('👤','Usuarios','Gestionar accesos','usuarios')+'</div>';
   renderizar('Duava Check',h);
@@ -345,17 +346,17 @@ function tarjetaMenu(icono,titulo,subtitulo,ruta){return'<div class="cd cd-cl" o
  *  PANTALLA: NUEVA AUDITORIA
  * =========================================================== */
 function pantallaNuevaAuditoria(){
-  var h='<h1 class="st-h">Nueva Auditoría</h1><p class="st-sub">Selecciona proveedor y nombra el producto</p><label class="lb">PROVEEDOR</label>';
+  var h='<h1 class="st-h">Nueva Auditor&iacute;a</h1><p class="st-sub">Selecciona proveedor y nombra el producto</p><label class="lb">PROVEEDOR</label>';
   if(AuditoriaActual.proveedor){
     h+='<div class="cd" style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div class="fd" style="font-weight:700">'+limpiar(AuditoriaActual.proveedor.nombre)+'</div><div style="font-size:12px;color:var(--dim)">'+limpiar(AuditoriaActual.proveedor.ciudad||'')+'</div></div><button class="btn bs bsm" onclick="AuditoriaActual.proveedor=null;pantallaNuevaAuditoria()">Cambiar</button></div></div>';
   }else{
     h+='<input class="ip" id="buscar-proveedor" placeholder="Buscar proveedor..." style="margin-bottom:8px"><div id="lista-proveedores">'+cargando()+'</div>'+
-      '<button class="btn bs bw" style="margin-top:8px" onclick="var e=$i(\'form-rapido\');e.style.display=e.style.display===\'none\'?\'block\':\'none\'">+ Crear proveedor rápido</button>'+
+      '<button class="btn bs bw" style="margin-top:8px" onclick="var e=$i(\'form-rapido\');e.style.display=e.style.display===\'none\'?\'block\':\'none\'">+ Crear proveedor r&aacute;pido</button>'+
       '<div id="form-rapido" style="display:none;margin-top:8px"><input class="ip" id="rapido-nombre" placeholder="Nombre de la empresa *" style="margin-bottom:6px"><input class="ip" id="rapido-ciudad" placeholder="Ciudad (ej: Shenzhen)" style="margin-bottom:6px"><button class="btn bp bw" onclick="crearProveedorRapido()">Crear y seleccionar</button></div>';
   }
-  h+='<div style="margin-top:16px"><label class="lb">PRODUCTO</label><input class="ip" id="campo-producto" placeholder="Nombre del equipo o dispositivo médico" value="'+limpiar(AuditoriaActual.producto)+'"></div>'+
-    '<button class="btn bp bw" style="margin-top:18px" onclick="iniciarAuditoria()">Comenzar Auditoría →</button>';
-  renderizar('Nueva Auditoría',h,'home');
+  h+='<div style="margin-top:16px"><label class="lb">PRODUCTO</label><input class="ip" id="campo-producto" placeholder="Nombre del equipo o dispositivo m&eacute;dico" value="'+limpiar(AuditoriaActual.producto)+'"></div>'+
+    '<button class="btn bp bw" style="margin-top:18px" onclick="iniciarAuditoria()">Comenzar Auditor&iacute;a →</button>';
+  renderizar('Nueva Auditor&iacute;a',h,'home');
   if(!AuditoriaActual.proveedor){
     Hoja.leer('Proveedores').then(function(d){mostrarListaProveedores(d)}).catch(function(e){$i('lista-proveedores').innerHTML='<p style="color:var(--red);font-size:13px;padding:12px">Error: '+limpiar(e.message)+'</p>'});
     var s=$i('buscar-proveedor');if(s)s.oninput=function(){var q=this.value.toLowerCase();Hoja.leer('Proveedores').then(function(d){mostrarListaProveedores(d.filter(function(p){return(p.nombre||'').toLowerCase().indexOf(q)!==-1||(p.ciudad||'').toLowerCase().indexOf(q)!==-1}))})};
@@ -376,7 +377,7 @@ function pantallaModulo(numero){
   c+='<h1 class="st-h">'+limpiar(modulo.nombre)+'</h1><p class="st-sub">'+limpiar(modulo.descripcion)+'</p>';
   if(modulo.tipo==='texto'){var valor=numero===1?AuditoriaActual.m1_texto:numero===2?AuditoriaActual.m2_texto:AuditoriaActual.m3_texto;c+='<textarea class="ip" id="campo-modulo" placeholder="'+limpiar(modulo.placeholder)+'">'+limpiar(valor)+'</textarea><p style="font-size:11px;color:var(--dim);margin-top:4px" id="contador-caracteres">'+valor.length+' caracteres</p>';}
   if(modulo.tipo==='checklist'){var checks=numero===4?AuditoriaActual.m4:AuditoriaActual.m5;modulo.preguntas.forEach(function(preg){var activo=checks[preg.id]||false;c+='<div class="ci'+(activo?' on':'')+'" id="check_'+preg.id+'" onclick="alternarCheck('+numero+',\''+preg.id+'\')"><input type="checkbox" '+(activo?'checked':'')+' tabindex="-1"><div><div class="ci-l">'+limpiar(preg.pregunta)+'</div><div class="ci-s">'+limpiar(preg.ayuda)+'</div></div></div>'});}
-  c+='<button class="btn bs bw" style="margin:14px 0 10px" onclick="vistaPreviaModulo('+numero+')">🔍 Vista previa del análisis</button><div id="preview-modulo"></div>'+enlacesRef(modulo.enlaces);
+  c+='<button class="btn bs bw" style="margin:14px 0 10px" onclick="vistaPreviaModulo('+numero+')">🔍 Vista previa del an&aacute;lisis</button><div id="preview-modulo"></div>'+enlacesRef(modulo.enlaces);
   var siguiente=numero<5?'auditoria/'+(numero+1):'resultados';
   c+='<div class="mn">'+(numero>1?'<button class="btn bs" onclick="nav(\'auditoria/'+(numero-1)+'\')">← M'+(numero-1)+'</button>':'')+'<button class="btn bp" onclick="nav(\''+siguiente+'\')">'+(numero<5?'M'+(numero+1)+' →':'Ver Resultados →')+'</button></div>';
   renderizar('M'+numero+': '+modulo.nombre,c,volverAtras);
@@ -399,7 +400,7 @@ function vistaPreviaModulo(numero){
 function pantallaResultados(){
   if(!ResultadoActual)ResultadoActual=ejecutarAuditoria({m1_texto:AuditoriaActual.m1_texto,m2_texto:AuditoriaActual.m2_texto,m3_texto:AuditoriaActual.m3_texto,m4:AuditoriaActual.m4,m5:AuditoriaActual.m5});
   var r=ResultadoActual;
-  var h='<div style="text-align:center;margin-bottom:20px">'+semaforo(r.veredicto_global,'l')+'<h1 class="st-h" style="margin-top:14px">Resultado de Auditoría</h1>'+
+  var h='<div style="text-align:center;margin-bottom:20px">'+semaforo(r.veredicto_global,'l')+'<h1 class="st-h" style="margin-top:14px">Resultado de Auditor&iacute;a</h1>'+
     '<p style="font-size:13px;color:var(--mut)">'+limpiar(AuditoriaActual.producto)+' — '+limpiar(AuditoriaActual.proveedor?AuditoriaActual.proveedor.nombre:'')+'</p>'+
     '<p class="fm" style="font-size:11px;color:var(--dim);margin-top:4px">'+new Date().toLocaleString('es-BO')+'</p></div>';
   var clase=r.veredicto_global.toLowerCase();
@@ -409,7 +410,7 @@ function pantallaResultados(){
     if(mr.detalles&&mr.detalles.length){h+='<div style="margin-top:6px">';mr.detalles.forEach(function(d){h+='<div style="font-size:12px;display:flex;align-items:center;gap:6px;padding:1px 0"><span style="color:'+(d.pasa?'var(--grn)':'var(--dim)')+'">'+(d.pasa?'✓':'✗')+'</span>'+limpiar(d.texto)+'</div>'});h+='</div>';}
     h+='</div></div></div>';}
   h+='<div class="g2" style="margin-top:18px"><button class="btn bp bw" id="boton-guardar" onclick="guardarAuditoria()">💾 Guardar en Sheets</button><button class="btn bs bw" onclick="window.print()">📄 Exportar PDF</button></div>'+
-    '<div class="g2" style="margin-top:8px"><button class="btn bs bw" onclick="compartirWhatsApp()">💬 WhatsApp</button><button class="btn bs bw" onclick="reiniciarAuditoria();nav(\'home\')">🏠 Nueva Auditoría</button></div>';
+    '<div class="g2" style="margin-top:8px"><button class="btn bs bw" onclick="compartirWhatsApp()">💬 WhatsApp</button><button class="btn bs bw" onclick="reiniciarAuditoria();nav(\'home\')">🏠 Nueva Auditor&iacute;a</button></div>';
   renderizar('Resultados',h,'auditoria/5');
 }
 function guardarAuditoria(){
@@ -435,11 +436,11 @@ function guardarAuditoria(){
     creado_por:Sesion.obtener()?Sesion.obtener().nombre:''
   };
   var btn=$i('boton-guardar');if(btn){btn.disabled=true;btn.textContent='Guardando...';}
-  Hoja.escribir('Auditorias',fila).then(function(){toast('Auditoría guardada en Google Sheets','exito');if(btn)btn.textContent='✓ Guardado';})
+  Hoja.escribir('Auditorias',fila).then(function(){toast('Auditor&iacute;a guardada en Google Sheets','exito');if(btn)btn.textContent='✓ Guardado';})
     .catch(function(e){toast('Error al guardar: '+e.message,'error');if(btn){btn.disabled=false;btn.textContent='💾 Guardar en Sheets';}});
 }
 function compartirWhatsApp(){
-  var iconos={GREEN:'✅',YELLOW:'⚠️',RED:'✗'},nombres={1:'Certificación CE/MDR',2:'Tipo de Empresa',3:'Especificaciones',4:'Repuestos/Garantía',5:'Legalidad AGEMED'};
+  var iconos={GREEN:'✅',YELLOW:'⚠️',RED:'✗'},nombres={1:'Certificaci&oacute;n CE/MDR',2:'Tipo de Empresa',3:'Especificaciones',4:'Repuestos/Garant&iacute;a',5:'Legalidad AGEMED'};
   var t='📋 *AUDITORÍA DUAVA CHECK*\n━━━━━━━━━━━━━━\n📦 *'+limpiar(AuditoriaActual.producto)+'*\n🏭 '+limpiar(AuditoriaActual.proveedor?AuditoriaActual.proveedor.nombre:'')+'\n\n';
   for(var i=1;i<=5;i++)t+=iconos[ResultadoActual.resultados[i].veredicto]+' *'+nombres[i]+'*\n';
   t+='\n━━━━━━━━━━━━━━\n'+ResultadoActual.resumen+'\n\n_Duava Check_';
@@ -454,11 +455,11 @@ function pantallaHistorial(){
     '<input class="ip" id="historial-buscar" placeholder="Buscar..." style="margin-bottom:8px">'+
     filtroHTML([['','Todos',true],['GREEN','Verdes'],['YELLOW','Amarillas'],['RED','Rojas']],'filtros-historial')+'<div id="historial-lista">'+cargando()+'</div>';
   renderizar('Historial',h,'home');
-  Hoja.leer('Auditorias').then(function(data){data.reverse();$i('historial-contador').textContent=data.length+' auditorías';window._cacheHistorial=data;mostrarListaHistorial(data);$i('historial-buscar').oninput=function(){aplicarFiltroHistorial()};inicializarFiltros('filtros-historial',function(){aplicarFiltroHistorial()});})
+  Hoja.leer('Auditorias').then(function(data){data.reverse();$i('historial-contador').textContent=data.length+' auditor&iacute;as';window._cacheHistorial=data;mostrarListaHistorial(data);$i('historial-buscar').oninput=function(){aplicarFiltroHistorial()};inicializarFiltros('filtros-historial',function(){aplicarFiltroHistorial()});})
     .catch(function(e){$i('historial-lista').innerHTML='<p style="color:var(--red);font-size:13px;padding:16px">Error: '+limpiar(e.message)+'</p>'});
 }
 function aplicarFiltroHistorial(){var q=($i('historial-buscar')?$i('historial-buscar').value:'').toLowerCase();var fv=document.querySelector('#filtros-historial .fb.on');var vt=fv?fv.getAttribute('data-v'):'';mostrarListaHistorial((window._cacheHistorial||[]).filter(function(a){return(!q||(a.producto||'').toLowerCase().indexOf(q)!==-1||(a.proveedor_nombre||'').toLowerCase().indexOf(q)!==-1)&&(!vt||a.veredicto_global===vt)}));}
-function mostrarListaHistorial(data){var el=$i('historial-lista');if(!el)return;if(!data.length){el.innerHTML='<p style="color:var(--dim);font-size:13px;padding:16px;text-align:center">Sin auditorías</p>';return;}el.innerHTML=data.map(function(a){return'<div class="li" style="margin-bottom:6px"><div style="min-width:30px">'+semaforo(a.veredicto_global,'s',false)+'</div><div class="li-b" onclick="nav(\'historial/'+limpiar(a.id)+'\')"><div class="li-t">'+limpiar(a.producto||'Sin nombre')+'</div><div class="li-s">'+limpiar(a.proveedor_nombre)+' · '+(a.fecha?new Date(a.fecha).toLocaleDateString('es-BO'):'')+'</div></div><button class="btn bs bsm" onclick="event.stopPropagation();duplicarAuditoria(\''+limpiar(a.id)+'\')" title="Duplicar">📋</button></div>'}).join('');}
+function mostrarListaHistorial(data){var el=$i('historial-lista');if(!el)return;if(!data.length){el.innerHTML='<p style="color:var(--dim);font-size:13px;padding:16px;text-align:center">Sin auditor&iacute;as</p>';return;}el.innerHTML=data.map(function(a){return'<div class="li" style="margin-bottom:6px"><div style="min-width:30px">'+semaforo(a.veredicto_global,'s',false)+'</div><div class="li-b" onclick="nav(\'historial/'+limpiar(a.id)+'\')"><div class="li-t">'+limpiar(a.producto||'Sin nombre')+'</div><div class="li-s">'+limpiar(a.proveedor_nombre)+' · '+(a.fecha?new Date(a.fecha).toLocaleDateString('es-BO'):'')+'</div></div><button class="btn bs bsm" onclick="event.stopPropagation();duplicarAuditoria(\''+limpiar(a.id)+'\')" title="Duplicar">📋</button></div>'}).join('');}
 function duplicarAuditoria(id){var a=Hoja.buscarPorId(window._cacheHistorial||[],id);if(!a){toast('No encontrada','error');return;}AuditoriaActual={proveedor:{id:a.proveedor_id,nombre:a.proveedor_nombre},producto:a.producto,m1_texto:a.m1_texto||'',m2_texto:a.m2_texto||'',m3_texto:a.m3_texto||'',m4:{m4_catalogo_repuestos:a.m4_catalogo_repuestos==='true',m4_precios_unitarios:a.m4_precios_unitarios==='true',m4_garantia_escrita:a.m4_garantia_escrita==='true',m4_procedimiento_reclamacion:a.m4_procedimiento_reclamacion==='true'},m5:{m5_cfg:a.m5_cfg==='true',m5_apostillado:a.m5_apostillado==='true',m5_manual_espanol:a.m5_manual_espanol==='true'}};ResultadoActual=null;toast('Datos cargados','exito');setTimeout(function(){nav('auditoria/1')},400);}
 
 /* ===========================================================
@@ -480,7 +481,7 @@ function pantallaDetalleHistorial(id){
 function pantallaProveedores(){
   var h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div><h1 class="st-h">Proveedores</h1><p class="st-sub" id="proveedores-contador">Cargando...</p></div><button class="btn bp bsm" onclick="nav(\'proveedor/nuevo\')">+ Nuevo</button></div>'+
     '<input class="ip" id="buscar-proveedores" placeholder="Buscar..." style="margin-bottom:8px">'+
-    filtroHTML([['','Todos',true],['Activo','Activos'],['Evaluacion','En evaluación'],['Descartado','Descartados']],'filtros-proveedores')+'<div id="lista-proveedores2">'+cargando()+'</div>';
+    filtroHTML([['','Todos',true],['Activo','Activos'],['Evaluacion','En evaluaci&oacute;n'],['Descartado','Descartados']],'filtros-proveedores')+'<div id="lista-proveedores2">'+cargando()+'</div>';
   renderizar('Proveedores',h,'home');
   Hoja.leer('Proveedores').then(function(data){$i('proveedores-contador').textContent=data.length+' proveedores';window._cacheProveedores=data;mostrarListaProveedores2(data);$i('buscar-proveedores').oninput=function(){aplicarFiltroProveedores()};inicializarFiltros('filtros-proveedores',function(){aplicarFiltroProveedores()});})
     .catch(function(e){$i('lista-proveedores2').innerHTML='<p style="color:var(--red);font-size:13px">Error: '+limpiar(e.message)+'</p>'});
@@ -495,8 +496,8 @@ function pantallaFormularioProveedor(id){
   var esNuevo=!id,valoresPorDefecto={nombre:'',email:'',telefono:'',pais:'China',ciudad:'',tipo:'',certificaciones:'',estado:'Evaluacion',notas:'',fecha_creacion:''};
   function dibujar(d){
     var h='<h1 class="st-h">'+(esNuevo?'Nuevo':'Editar')+' Proveedor</h1><div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">'+
-      campoFormulario('nombre','Nombre *',d.nombre)+'<div class="g2">'+campoFormulario('pais','País',d.pais)+campoFormulario('ciudad','Ciudad',d.ciudad)+'</div>'+
-      '<div class="g2">'+campoFormulario('email','Email',d.email)+campoFormulario('telefono','Teléfono',d.telefono)+'</div>'+
+      campoFormulario('nombre','Nombre *',d.nombre)+'<div class="g2">'+campoFormulario('pais','Pa&iacute;s',d.pais)+campoFormulario('ciudad','Ciudad',d.ciudad)+'</div>'+
+      '<div class="g2">'+campoFormulario('email','Email',d.email)+campoFormulario('telefono','Tel&eacute;fono',d.telefono)+'</div>'+
       '<div><label class="lb">TIPO</label><select class="ip" id="campo-tipo"><option value="">Seleccionar...</option>'+['Fabricante','Trading','Distribuidor','Otro'].map(function(t){return'<option'+(d.tipo===t?' selected':'')+'>'+t+'</option>'}).join('')+'</select></div>'+
       '<div><label class="lb">ESTADO</label><select class="ip" id="campo-estado">'+['Evaluacion','Activo','Descartado'].map(function(t){return'<option'+(d.estado===t?' selected':'')+'>'+t+'</option>'}).join('')+'</select></div>'+
       campoFormulario('certificaciones','Certificaciones',d.certificaciones)+'<div><label class="lb">NOTAS</label><textarea class="ip" id="campo-notas" style="min-height:80px">'+limpiar(d.notas)+'</textarea></div>'+
@@ -539,7 +540,7 @@ function pantallaFormularioLegal(id){
   function dibujar(d){
     var h='<h1 class="st-h">'+(esNuevo?'Nuevo':'Editar')+' Documento</h1><div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">'+
       '<div><label class="lb">CATEGORÍA</label><select class="ip" id="campo-categoria">'+['Regulaciones UE','Regulaciones Bolivia','Normas Tecnicas','Procedimientos'].map(function(c){return'<option'+(d.categoria===c?' selected':'')+'>'+c+'</option>'}).join('')+'</select></div>'+
-      campoFormulario('titulo','Título *',d.titulo)+'<div><label class="lb">DESCRIPCIÓN</label><textarea class="ip" id="campo-descripcion" style="min-height:80px">'+limpiar(d.descripcion)+'</textarea></div>'+
+      campoFormulario('titulo','T&iacute;tulo *',d.titulo)+'<div><label class="lb">DESCRIPCIÓN</label><textarea class="ip" id="campo-descripcion" style="min-height:80px">'+limpiar(d.descripcion)+'</textarea></div>'+
       campoFormulario('enlace_oficial','Enlace Oficial',d.enlace_oficial)+
       '<button class="btn bp bw" id="boton-legal" onclick="guardarDocumento(\''+(esNuevo?'':limpiar(id))+'\',\''+limpiar(d.fecha_actualizacion||'')+'\')">'+(esNuevo?'Crear':'Actualizar')+'</button></div>';
     renderizar(esNuevo?'Nuevo Documento':'Editar Documento',h,'legal');
@@ -548,7 +549,7 @@ function pantallaFormularioLegal(id){
 }
 function guardarDocumento(idViejo,fechaVieja){
   var datos={categoria:obtenerCampo('categoria'),titulo:obtenerCampo('titulo'),descripcion:obtenerCampo('descripcion'),enlace_oficial:obtenerCampo('enlace_oficial')};
-  if(!datos.titulo){toast('Título obligatorio','error');return;}
+  if(!datos.titulo){toast('T&iacute;tulo obligatorio','error');return;}
   var btn=$i('boton-legal');if(btn){btn.disabled=true;btn.textContent='Guardando...';}
   var operacion=idViejo?(datos.id=idViejo,datos.fecha_actualizacion=fechaVieja,Hoja.actualizar('Base_Legal',idViejo,datos)):(datos.id=nuevoId(),datos.fecha_actualizacion=new Date().toISOString(),Hoja.escribir('Base_Legal',datos));
   operacion.then(function(){toast(idViejo?'Actualizado':'Creado','exito');nav('legal')}).catch(function(e){toast('Error: '+e.message,'error');if(btn){btn.disabled=false;}});
@@ -568,12 +569,12 @@ function waRenderizarPasos(paso){
   h+='</div>';return h;
 }
 function waPaso1(){
-  $i('wa-contenido').innerHTML=waRenderizarPasos(1)+'<h3 class="sl">Paso 1: Opción RECOMENDADA</h3><input class="ip" id="wa-buscar" placeholder="Buscar..." style="margin-bottom:8px"><div id="wa-lista"></div>';
+  $i('wa-contenido').innerHTML=waRenderizarPasos(1)+'<h3 class="sl">Paso 1: Opci&oacute;n RECOMENDADA</h3><input class="ip" id="wa-buscar" placeholder="Buscar..." style="margin-bottom:8px"><div id="wa-lista"></div>';
   waMostrarLista(window._cacheWA,'',false);$i('wa-buscar').oninput=function(){waMostrarLista(window._cacheWA,this.value,false)};
 }
 function waPaso2(){
   var rec=window._waRecomendada;
-  $i('wa-contenido').innerHTML=waRenderizarPasos(2)+'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 class="sl">Paso 2: Opción ECONÓMICA</h3><button class="btn bs bsm" onclick="window._waRecomendada=null;waPaso1()">Cambiar</button></div>'+
+  $i('wa-contenido').innerHTML=waRenderizarPasos(2)+'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 class="sl">Paso 2: Opci&oacute;n ECONÓMICA</h3><button class="btn bs bsm" onclick="window._waRecomendada=null;waPaso1()">Cambiar</button></div>'+
     '<div class="cd" style="border-color:var(--gold-dim);margin-bottom:10px"><span class="bg bg-g">RECOMENDADA</span><div class="fd" style="font-weight:700;font-size:14px;margin-top:4px">'+limpiar(rec.producto)+'</div></div>'+
     '<input class="ip" id="wa-buscar" placeholder="Buscar..." style="margin-bottom:8px"><div id="wa-lista"></div>';
   var filtrados=(window._cacheWA||[]).filter(function(a){return a.id!==rec.id});
@@ -589,7 +590,7 @@ function waPaso3(){
 }
 function waMostrarLista(data,query,esEconomica){
   query=(query||'').toLowerCase();var filtrados=data.filter(function(a){return!query||(a.producto||'').toLowerCase().indexOf(query)!==-1||(a.proveedor_nombre||'').toLowerCase().indexOf(query)!==-1});
-  var el=$i('wa-lista');if(!el)return;if(!filtrados.length){el.innerHTML='<p style="color:var(--dim);font-size:13px;padding:16px;text-align:center">Sin auditorías</p>';return;}
+  var el=$i('wa-lista');if(!el)return;if(!filtrados.length){el.innerHTML='<p style="color:var(--dim);font-size:13px;padding:16px;text-align:center">Sin auditor&iacute;as</p>';return;}
   el.innerHTML=filtrados.map(function(a){return'<div class="li" style="margin-bottom:6px" onclick="waSeleccionar('+JSON.stringify(esEconomica)+',\''+limpiar(a.id)+'\')"><div style="min-width:30px">'+semaforo(a.veredicto_global,'s',false)+'</div><div class="li-b"><div class="li-t">'+limpiar(a.producto)+'</div><div class="li-s">'+limpiar(a.proveedor_nombre)+'</div></div></div>'}).join('');
 }
 function waSeleccionar(esEconomica,id){var a=Hoja.buscarPorId(window._cacheWA||[],id);if(!a)return;if(!esEconomica){window._waRecomendada=a;window._waEconomica=null;waPaso2();}else{window._waEconomica=a;waPaso3();}}
@@ -601,13 +602,13 @@ function copiarWhatsApp(){navigator.clipboard.writeText($i('wa-preview').textCon
 function pantallaUsuarios(){
   renderizar('Usuarios','<div id="usuarios-contenido">'+cargando()+'</div>','home');
   Hoja.leer('Usuarios',true).then(function(usuarios){
-    var h='<h1 class="st-h">Gestión de Usuarios</h1><p class="st-sub">'+usuarios.length+' usuarios</p><div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px">';
+    var h='<h1 class="st-h">Gesti&oacute;n de Usuarios</h1><p class="st-sub">'+usuarios.length+' usuarios</p><div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px">';
     usuarios.forEach(function(u){
       var nombre=u.Nombre||'',activo=(u.Activo||'').toLowerCase();
-      var estaActivo=(activo==='sí'||activo==='si'||activo==='s');
+      var estaActivo=(activo==='s&iacute;'||activo==='si'||activo==='s');
       h+='<div class="cd"><div style="display:flex;align-items:center;justify-content:space-between"><div><span class="fd" style="font-weight:700;font-size:14px">'+limpiar(nombre)+'</span> <span class="bg '+(estaActivo?'bg-gn':'bg-rd')+'">'+(estaActivo?'Activo':'Bloqueado')+'</span></div></div></div>';
     });
-    h+='</div><h3 class="sl" style="margin-top:18px">Añadir Usuario</h3><div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">'+
+    h+='</div><h3 class="sl" style="margin-top:18px">A&ntilde;adir Usuario</h3><div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">'+
       campoFormulario('nuevo_nombre','Nombre','')+campoFormulario('nuevo_clave','Clave','')+
       '<button class="btn bp bw" id="boton-nuevo-usuario" onclick="crearUsuario()">Crear Usuario</button></div>';
     $i('usuarios-contenido').innerHTML=h;
@@ -618,7 +619,7 @@ function crearUsuario(){
   var btn=$i('boton-nuevo-usuario');if(btn){btn.disabled=true;btn.textContent='Guardando...';}
   Hoja.leer('Usuarios',true).then(function(usuarios){
     for(var i=0;i<usuarios.length;i++)if((usuarios[i].Nombre||'')===nombre){toast('Ese nombre ya existe','error');if(btn){btn.disabled=false;btn.textContent='Crear Usuario';}return;}
-    Hoja.escribir('Usuarios',{Nombre:nombre,Clave:clave,Activo:'Sí'}).then(function(){toast('Usuario creado','exito');pantallaUsuarios()}).catch(function(e){toast('Error: '+e.message,'error');if(btn){btn.disabled=false;}});
+    Hoja.escribir('Usuarios',{Nombre:nombre,Clave:clave,Activo:'S&iacute;'}).then(function(){toast('Usuario creado','exito');pantallaUsuarios()}).catch(function(e){toast('Error: '+e.message,'error');if(btn){btn.disabled=false;}});
   });
 }
 
