@@ -1,14 +1,1 @@
-{
-  "name": "Duava Check",
-  "short_name": "D. Check",
-  "description": "Auditoría Forense de Proveedores Médicos",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#070810",
-  "theme_color": "#070810",
-  "orientation": "portrait",
-  "icons": [
-    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
-  ]
-}
+{"name":"Duava Check V2","short_name":"D. Check","start_url":".","display":"standalone","background_color":"#f2f0ec","theme_color":"#f2f0ec","description":"Plataforma de evaluacion estrategica de fabricantes","icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"}]}
