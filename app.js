@@ -206,7 +206,7 @@ function render(tit,cont,bk){
 function ld(m){return'<div class="ld"><div class="spn"></div><p style="font-size:13px;color:var(--mut)">'+(m||'Cargando...')+'</p></div>';}
 function filtH(arr,wid){return'<div class="fs" id="'+wid+'">'+arr.map(function(a){return'<button class="fb'+(a[2]?' on':'')+'" data-v="'+a[0]+'">'+a[1]+'</button>'}).join('')+'</div>';}
 function initF(wid,cb){var w=$i(wid);if(!w)return;w.onclick=function(e){var b=e.target.closest('.fb');if(!b)return;w.querySelectorAll('.fb').forEach(function(x){x.classList.remove('on')});b.classList.add('on');cb(b.getAttribute('data-v'));};}
-function barra(sc,label){var col=sc>=8?'var(--grn)':sc>=5?'var(--gold)':'var(--red)';return'<div class="db"><div class="db-l">'+label+'</div><div class="db-b"><div class="db-f" style='width:'+(sc*10)+'%;background:'+col+'></div></div><div class="db-v" style="color:'+col+'">'+r2(sc)+'</div></div>';}
+function barra(sc,label){var col=sc>=8?'var(--grn)':sc>=5?'var(--gold)':'var(--red)';return'<div class="db"><div class="db-l">'+label+'</div><div class="db-b"><div class="db-f" style="width:'+(sc*10)+'%;background:'+col+'"></div></div><div class="db-v" style="color:'+col+'">'+r2(sc)+'</div></div>';}
 function showCfg(){$i('R').innerHTML='<div class="err-full"><div><h2>Configuracion requerida</h2><p>Abre <code>app.js</code> y busca <code>URL_HOJA</code>. Reemplaza con tu URL de Google Apps Script.</p></div></div>';}
 function ff(n,lb,v){return'<div><label class="lb">'+lb+'</label><input class="ip" id="f-'+n+'" value="'+esc(v||'')+'"></div>';}
 function gf(n){var el=$i('f-'+n);return el?el.value.trim():'';}
